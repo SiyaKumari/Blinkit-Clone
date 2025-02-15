@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+
+import AllProducts from "./AllProducts";
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import Details from "./Details";
+import { useState } from "react";
+import Cart from "./Cart";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [cart,setCart] = useState([])
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product])
+    console.log(cart)
+  }
+return(
+  <Router>
+    <Routes>
+      <Route path="/" element={<AllProducts addToCart={addToCart} cart={cart}/>}/>
+      <Route path="/products/:id" element={<Details addToCart={addToCart} cart={cart}/>}/>
+      <Route path="/cart" element={<Cart cart={cart}/>} />
+      </Routes>
+  </Router>
+)
 }
 
 export default App;
+
+
+// Requirements: Build a Blinkit like clone with features like adding to cart, displaying a list of products and opening the detail page
+// Figma designs: Can refer to Blinkit website directly
+// Images and assets: Also on Blinkit website
+// Api resources: Fake store db
